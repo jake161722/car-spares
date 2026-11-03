@@ -1,8 +1,10 @@
 // Zero-dependency Node.js backend: static files + JSON API. Run: node server.js
 const http = require('http'), fs = require('fs'), path = require('path'), crypto = require('crypto');
 const cfg = require('./config');
-const PUB = path.join(__dirname, 'public'), DATA = path.join(__dirname, 'data');
-const MIME = { '.html':'text/html', '.css':'text/css', '.js':'text/javascript', '.json':'application/json', '.svg':'image/svg+xml', '.png':'image/png', '.jpg':'image/jpeg', '.webp':'image/webp', '.ico':'image/x-icon' };
+const ROOT = __dirname;
+const PUB = fs.existsSync(path.join(ROOT, 'public')) ? path.join(ROOT, 'public') : ROOT;
+const DATA = fs.existsSync(path.join(ROOT, 'data')) ? path.join(ROOT, 'data') : ROOT;
+const MIME = { '.html':'text/html', '.css':'text/css', '.js':'text/javascript', '.json':'application/json', '.svg':'image/svg+xml', '.png':'image/png', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.webp':'image/webp', '.gif':'image/gif' };
 const read = f => { try { return JSON.parse(fs.readFileSync(path.join(DATA, f), 'utf8')); } catch { return []; } };
 const write = (f, d) => fs.writeFileSync(path.join(DATA, f), JSON.stringify(d, null, 2));
 const hits = new Map(); // tiny rate limiter: 60 req/min/IP on POST
@@ -11,7 +13,7 @@ const send = (res, code, body, type = 'application/json') => {
   res.writeHead(code, { 'Content-Type': type + '; charset=utf-8', 'X-Content-Type-Options':'nosniff', 'X-Frame-Options':'SAMEORIGIN', 'Referrer-Policy':'strict-origin-when-cross-origin' });
   res.end(typeof body === 'string' || Buffer.isBuffer(body) ? body : JSON.stringify(body));
 };
-const body = req => new Promise((ok, no) => { let b = ''; req.on('data', c => { b += c; if (b.length > 1e5) { req.destroy(); no(); } }); req.on('end', () => { try { ok(JSON.parse(b || '{}')); } catch { no(); } }); });
+const body = req => new Promise((ok, no) => { let b = ''; req.on('data', c => { b += c; if (b.length > 1e5) { req.destroy(); no(); } }); req.on('end', () => { try { ok(JSON.parse(b || '{}')); } catch { ok({}); } }); });
 const clean = (s, n = 200) => String(s || '').replace(/[<>]/g, '').trim().slice(0, n);
 const isAdmin = req => req.headers['x-admin-key'] === cfg.adminKey;
 
@@ -32,7 +34,7 @@ async function api(req, res, u) {
   if (req.method === 'POST' && p === '/api/orders') {
     const d = await body(req), products = read('products.json'); let subtotal = 0;
     const items = (Array.isArray(d.items) ? d.items : []).slice(0, 50).map(i => {
-      const pr = products.find(x => x.id === i.id); if (!pr) return null; // prices always come from the server
+      const pr = products.find(x => x.id === i.id); if (!pr) return null;
       const qty = Math.max(1, Math.min(99, parseInt(i.qty) || 1)); subtotal += pr.price * qty;
       return { id: pr.id, name: pr.name, sku: pr.sku, qty, price: pr.price };
     }).filter(Boolean);
@@ -58,7 +60,6 @@ async function api(req, res, u) {
     m.push({ name: clean(d.name, 80), phone: clean(d.phone, 30), message: clean(d.message, 1000), at: new Date().toISOString() });
     write('messages.json', m); return send(res, 201, { ok: true });
   }
-  // ---- Admin (send header x-admin-key) ----
   if (p.startsWith('/api/admin/')) {
     if (!isAdmin(req)) return send(res, 401, { error: 'Unauthorized' });
     if (req.method === 'GET' && p === '/api/admin/orders') return send(res, 200, read('orders.json'));
@@ -79,7 +80,16 @@ http.createServer(async (req, res) => {
     if (u.pathname.startsWith('/api/')) return await api(req, res, u);
     let f = path.normalize(path.join(PUB, decodeURIComponent(u.pathname === '/' ? '/index.html' : u.pathname)));
     if (!f.startsWith(PUB)) return send(res, 403, 'Forbidden', 'text/plain');
-    if (!fs.existsSync(f) || fs.statSync(f).isDirectory()) f = path.join(PUB, 'index.html'); // SPA fallback
+    if (!fs.existsSync(f) || fs.statSync(f).isDirectory()) {
+      const fallback = path.join(PUB, 'index.html');
+      if (fs.existsSync(fallback) && !fs.statSync(fallback).isDirectory()) {
+        f = fallback;
+      } else {
+        const rootIndex = path.join(ROOT, 'index.html');
+        if (fs.existsSync(rootIndex) && !fs.statSync(rootIndex).isDirectory()) f = rootIndex;
+        else return send(res, 404, { error: 'Page not found' }, 'application/json');
+      }
+    }
     send(res, 200, fs.readFileSync(f), MIME[path.extname(f)] || 'application/octet-stream');
   } catch { send(res, 400, { error: 'Bad request' }); }
 }).listen(cfg.port, () => console.log(`${cfg.shop.name} running on http://localhost:${cfg.port}`));
