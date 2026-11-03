@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vaite Car Spares | Genuine car parts in Kenya, shipped worldwide</title>
+<meta name="description" content="Buy quality-checked car spares online: engine, brakes, suspension, electrical and more. M-Pesa, cards and worldwide shipping.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <span><a id="tPhone"></a> · <a id="tWa">WhatsApp</a> · <a id="tMail"></a></span>
+  <span class="tb-r"><span id="tHours"></span> <b data-i="ship_top">Worldwide delivery</b></span>
+</div></div>
+
+<header class="head"><div class="wrap hrow">
+  <a class="logo" href="/"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="none" stroke="#F2A900" stroke-width="4" stroke-dasharray="7 3"/><circle cx="17" cy="17" r="5" fill="#0F1B2D"/></svg><span>Vaite<em>Car Spares</em></span></a>
+  <form class="search" id="searchForm" role="search"><input id="q" type="search" placeholder="Part name, SKU, OEM or vehicle..." aria-label="Search"><button data-i="search">Search</button></form>
+  <div class="tools">
+    <select id="lang" aria-label="Language"><option value="en">EN</option><option value="sw">SW</option></select>
+    <select id="cur" aria-label="Currency"></select>
+    <button class="ico" id="wishBtn" aria-label="Wishlist">♡ <span id="wCount">0</span></button>
+    <button class="ico cart" id="cartBtn"><span data-i="cart">Cart</span> <span id="cCount" class="badge">0</span></button>
+  </div>
+</div>
+<nav class="wrap nav"><div class="catwrap"><button id="catBtn" class="catbtn" data-i="shop_cat">Shop by category ▾</button><div id="catMenu" class="catmenu" hidden></div></div>
+  <a href="#shop" data-i="shop">Shop</a><a href="#fitment" data-i="finder">Find by vehicle</a><a href="#help" data-i="help">Shipping & payment</a><a href="#contact" data-i="contact">Contact</a></nav>
+</header>
+
+<main>
+<section class="hero"><div class="wrap hero-grid">
+  <div class="hero-copy">
+    <span class="eyebrow">Trusted car parts marketplace</span>
+    <h1 data-i="h1">Find the part that fits your car.</h1>
+    <p data-i="sub">Quality-checked spares for Japanese, European and 4x4 vehicles. Not sure it fits? Send your chassis number on WhatsApp and we confirm before you pay.</p>
+    <form id="finder" class="finder" aria-label="Vehicle finder">
+      <select id="fMake"><option value="">Make</option></select>
+      <select id="fCat"><option value="">All categories</option></select>
+      <button data-i="find">Find parts</button>
+    </form>
+    <ul class="trust"><li data-i="t1">Genuine, quality-checked parts</li><li data-i="t2">M-Pesa, card and cash on delivery</li><li data-i="t3">Ships to 190+ countries</li></ul>
+  </div>
+  <div class="hero-visual" aria-label="Featured car parts gallery">
+    <div class="hero-card hero-card-main">
+      <img src="img/weathertech-telluride.jpg" alt="Custom fit car floor liners">
+      <div class="hero-card-copy">
+        <span>Best seller</span>
+        <strong>Custom fit floor liners</strong>
+        <small>For SUVs and daily drivers</small>
+      </div>
+    </div>
+    <div class="mini-stack">
+      <div class="mini-card">
+        <img src="img/hyundai-kona-floor-mats.jpg" alt="Hyundai Kona floor mats">
+        <p>Floor protection</p>
+      </div>
+      <div class="mini-card accent">
+        <img src="img/car-seat-headrest.jpg" alt="Car seat headrest support">
+        <p>Comfort upgrades</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="wrap featured-showcase">
+  <div class="showcase-header">
+    <span class="eyebrow">Top picks this week</span>
+    <h2>Built for reliable daily driving.</h2>
+  </div>
+  <div class="feature-grid">
+    <article class="feature-card">
+      <img src="img/kia-stonic-floor-mats.jpg" alt="Kia Stonic floor mats">
+      <div>
+        <span>Interior protection</span>
+        <h3>All-weather floor sets</h3>
+      </div>
+    </article>
+    <article class="feature-card">
+      <img src="img/vw-tiguan-floor-mats.jpg" alt="Volkswagen Tiguan floor mats">
+      <div>
+        <span>Family-ready</span>
+        <h3>Worry-free cargo care</h3>
+      </div>
+    </article>
+    <article class="feature-card">
+      <img src="img/odyssey-shock-absorbers.jpg" alt="Shock absorbers and suspension parts">
+      <div>
+        <span>Drive smooth</span>
+        <h3>Suspension & comfort</h3>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="wrap" id="shop">
+  <div class="chips" id="chips"></div>
+  <div class="bar"><p id="count"></p><label><span data-i="sort">Sort</span> <select id="sort"><option value="">Newest</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></label></div>
+  <div class="grid" id="grid" aria-live="polite"></div>
+</section>
+
+<section class="wrap help" id="help">
+  <div><h2 data-i="pay_h">How to pay</h2><p>M-Pesa Paybill <b id="pb"></b>, Account <b id="ac"></b>. Cards and cash on delivery (Nairobi) also accepted.</p></div>
+  <div><h2 data-i="ship_h">Shipping worldwide</h2><p id="shipTxt"></p></div>
+  <div><h2 data-i="fit_h">Fitment promise</h2><p data-i="fit_p">Send a photo of the old part or your chassis number. If it does not fit, you do not pay.</p></div>
+</section>
+
+<section class="wrap contact" id="contact">
+  <h2 data-i="contact">Contact</h2>
+  <form id="contactForm"><input name="name" placeholder="Your name" required><input name="phone" placeholder="Phone / WhatsApp" required><textarea name="message" rows="3" placeholder="Which part do you need? Include make, model and year." required></textarea><button data-i="send">Send message</button></form>
+</section>
+</main>
+
+<footer><div class="wrap fgrid">
+  <div><b id="fName"></b><p id="fAddr"></p><p id="fHours"></p></div>
+  <div><b>Support</b><a href="#contact">Contact us</a><a href="#help">Shipping & delivery</a><a href="#help">Returns & refunds</a></div>
+  <div><b>Company</b><a href="#help">Payment methods</a><a href="#">Terms & conditions</a><a href="#">Privacy policy</a></div>
+  <form id="subFoot" class="stay"><b>Stay in the loop</b><input type="email" placeholder="you@email.com" required><button data-i="subscribe">Subscribe</button></form>
+</div><p class="copy wrap" id="copy"></p></footer>
+
+<a class="wafab" id="waFab" aria-label="Chat on WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.1 14.900l-.3-.2-2.600.7.7-2.500-.2-.3A8 8 0 0 1 12 4z"/><circle cx="9" cy="12" r="1.200"/><circle cx="12.500" cy="12" r="1.200"/><circle cx="16" cy="12" r="1.200"/></svg></a>
+
+<aside id="drawer" class="drawer" hidden><div class="dh"><b data-i="cart">Cart</b><button id="closeCart" aria-label="Close">✕</button></div><div id="lines"></div>
+  <div class="dt"><span data-i="total">Total</span><b id="sum"></b></div>
+  <form id="checkout" hidden>
+    <input name="name" placeholder="Full name" required><input name="phone" placeholder="Phone / WhatsApp" required><input name="email" type="email" placeholder="Email">
+    <input name="country" placeholder="Country" value="Kenya" required><input name="city" placeholder="City / town" required><input name="address" placeholder="Delivery address">
+    <select name="payment"><option value="mpesa">M-Pesa</option><option value="card">Card</option><option value="cod">Cash on delivery (Nairobi)</option></select>
+    <button data-i="place">Place order</button>
+  </form><button id="goCheckout" class="primary" data-i="checkout">Checkout</button></aside>
+
+<div id="pop" class="pop" hidden><div class="pbox"><button class="x" id="popX" aria-label="Close">✕</button><h3 data-i="pop_h">Get parts deals first</h3>
+  <p>Restock alerts, member-only prices and maintenance tips. Once or twice a month.</p>
+  <form id="subPop"><input name="name" placeholder="First name"><input name="email" type="email" placeholder="Your e-mail address" required><button data-i="subscribe">Subscribe</button></form><a href="#" id="popNo">No thanks</a></div></div>
+<div id="toast" class="toast" role="status"></div>
+<script src="js/app.js"></script>
+</body></html>
+ 
